@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'logout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-box">
+        <h2>Logout</h2>
+        <p>Are you sure you want to logout?</p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, Logout</button>
+            <a href="{% url 'index' %}" class="cta-button">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

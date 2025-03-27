@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'header.css' %}">
+{% endblock %}
+
+<header class="header-block sticky-top">
+    <div class="header">
+        <div class="logo-block">
+            {# Uncomment if you want logo #}
+            {# <img src="{% static 'assets/logo.jpg' %}" alt="Logo" class="logo"> #}
+            <h1>HealthHub</h1>
+        </div>
+        <nav class="nav-wrapper">
+            <div class="items">
+                <a href="{% url 'index' %}" class="item">Home</a>
+                <a href="#features" class="item">Our Services</a>
+                <a href="{% url 'index' %}" class="item">About Us</a>
+            </div>
+        </nav>
+        <div class="cta-container">
+            <a href="{% url 'login' %}" class="cta-button">Login</a>
+            <a href="{% url 'register' %}" class="cta-button">Register</a>
+            <a href="{% url 'profile' %}" class="cta-button">Profile</a>
+        </div>
+    </div>
+</header>

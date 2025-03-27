@@ -1,0 +1,131 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Fade-in animation for body */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    animation: slideUp 0.8s ease-in-out;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.form-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.form-box:hover {
+    transform: scale(1.03);
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input field animations */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    animation: fadeInputs 0.8s ease-in-out forwards;
+}
+
+@keyframes fadeInputs {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+    outline: none;
+}
+
+/* Button Styling */
+button {
+    background: #4facfe;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+button:hover {
+    background: #009ffd;
+    transform: scale(1.05);
+}
+
+/* Subtle form transition */
+.toggle-form {
+    margin-top: 10px;
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeInputs 1s ease-in-out forwards;
+}
+
+#switch, #switch-back {
+    color: #4facfe;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#switch:hover, #switch-back:hover {
+    text-decoration: underline;
+}
+
+/* Hide the sign-up form initially */
+.hidden {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 450px) {
+    .form-box {
+        padding: 20px;
+    }
+}

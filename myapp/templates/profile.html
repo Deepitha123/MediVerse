@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-box">
+        <h2>My Profile</h2>
+        <a href="{% url 'editprofile' %}" class="cta-button">Edit Profile</a>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
+        <br>
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="item logout-btn">Logout</button>
+      </form>
+      
+    </div>
+</div>
+
+
+{% endblock %}

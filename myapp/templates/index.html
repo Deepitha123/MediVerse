@@ -26,14 +26,17 @@
 </div>
 
 <section class="features">
+
   <div class="card " style="width: 18rem;">
-      <img src="{% static 'assets/E_records.jpeg' %}" class="card-img-top" alt="Digital Records">
-      <div class="card-body">
-        <h5 class="card-title">Patients' Digital Records</h5>
-        <p class="card-text">Access and manage medical records securely.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
-      </div>
+    <img src="{% static 'assets/E_records.jpeg' %}" class="card-img-top" alt="Digital Records">
+    <div class="card-body">
+      <h5 class="card-title">Health Status Tracking</h5>
+      <p class="card-text">Monitor real time health data using wearable devices.</p>
+      <a href="{% url 'health_status' %}" class="btn btn-primary">Click Here</a>
     </div>
+  </div>
+
+
     
     <div class="card mt-4" style="width: 18rem;">
       <img src="{% static 'assets/audio_analysis.jpg' %}" class="card-img-top" alt="Audio Analysis">
@@ -49,7 +52,7 @@
       <div class="card-body">
         <h5 class="card-title">Image-Based Analysis</h5>
         <p class="card-text">Automated medical imaging diagnostics.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <a href="{% url 'wound_analysis' %}" class="btn btn-primary">Click Here</a>
       </div>
     </div>
     
@@ -58,9 +61,11 @@
       <div class="card-body">
         <h5 class="card-title">Lifestyle Recommendations</h5>
         <p class="card-text">Personalized health and wellness guidance.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <a href="{% url 'lifestyle_recommendations' %}" class="btn btn-primary">Click Here</a>
       </div>
     </div>
+
+    
     
     <div class="card" style="width: 18rem;">
       <img src="{% static 'assets/mental_health.avif' %}" class="card-img-top" alt="Mental Health">
@@ -92,11 +97,13 @@
     <div class="card " style="width: 18rem;">
       <img src="{% static 'assets/E_records.jpeg' %}" class="card-img-top" alt="Digital Records">
       <div class="card-body">
-        <h5 class="card-title">Health Status Tracking</h5>
-        <p class="card-text">Monitor real time health data using wearable devices.</p>
+        <h5 class="card-title">Patients' Digital Records</h5>
+        <p class="card-text">Access and manage medical records securely.</p>
         <a href="#" class="btn btn-primary">Click Here</a>
       </div>
     </div>
+
+  
     
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

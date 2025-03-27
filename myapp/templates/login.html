@@ -7,19 +7,50 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="form-box">
-        <h2>Login</h2>
-        <form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-            {% if request.POST.next %}
-                <p class="error-message">Please login to view your profile.</p>
-            {% endif %}
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-</div>
+<div style="background-image: url('{% static 'assets/Green Illustrative Medical Healthcare Virtual Zoom Background.png' %}'); background-size: cover; background-repeat: no-repeat; background-position: center center; min-height: 100vh; margin-top:0px;">
+
+<div class="one">
+                <div style="height: 400px; width: 400px;margin-left: 22%;margin-top: 100px; position: absolute;">
+                    <h2 class="px-4 pb-4">Login</h2>
+                    <p class="ps-4 pt-2" style="font-weight: bold;">Username</p>
+                    <input class="ps-2 ms-4 rounded" style="width: 350px;" type="text">
+                    <p class="ps-4 pt-2" style="font-weight: bold;">Password</p>
+                    <input class="ps-2 ms-4 rounded" style="width: 350px;" type="password">
+                    <button class="mx-4 my-3" style="width: 350px; background-color:#22B8A2; border-radius: 25px;"
+            onclick="window.location.href='index.html'">
+            Login
+        </button>
+        
+                <div class="ms-4">
+                    <p>Don't you have an account?</p>
+                    <a href="signup.html" >Click here to signup</a>
+                </div>
+                </div>
+                <div class="two">
+                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <img src="{% static '/assets/doctor-patient.png' %}" class="d-block w-100" style="margin-top: 200px; margin-left: 10px;">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <img src="{% static '/assets/surgeon.png' %}" class="d-block w-100" style="margin-top: 200px;padding-right: 12px; padding-left: 10px;">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static '/assets/medical-team.png' %}" class="d-block w-100" style="margin-top: 200px; width:200px; padding-right: 10px;padding-left: 10px;">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                            <span class="" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                            <span class="" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 {% endblock %}

@@ -2,6 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block start %}
+
+<div style="background-image: url('{% static 'assets/Green Illustrative Medical Healthcare Virtual Zoom Background.png' %}'); background-size: cover; background-repeat: no-repeat; background-position: center center; min-height: 100vh;">
+
+
 <div class="content-section col-md-8 col-md-offset-2">
   <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
     {% csrf_token %}

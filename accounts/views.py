@@ -79,7 +79,6 @@ def profile(request):
     user = request.user  
     return render(request, 'profile.html', {'user': user})
 
-@login_required
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -105,12 +104,20 @@ def register(request):
     password1 = request.POST['password']
     password2 = request.POST['confirm_password']
     email = request.POST['email']
+    if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken. Please try another.")
+            return render(request, 'register.html')  # Show error on the same page
     user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name=last_name)
     user.save()
 
     print("user created")
-    return redirect('/')
+    return redirect('login')
   else:  
     return render(request, "register.html")
+  
 
+def health_status(request):
+    return render(request, 'health_status.html')
 
+def lifestyle_recommendations(request):
+    return render(request, 'lifestyle_recommendations.html')

@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- Move PapaParse script to the top -->
+
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'health_status.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>Patient Health Status Tracker</h2>
+
+<!-- 🏥 Health Parameters Introduction -->
+<section class="introduction">
+    <h2>Understanding Vital Health Parameters</h2>
+    <p><b>Heart Rate (bpm):</b> Indicates cardiovascular health. A normal resting rate is 60-100 bpm.</p>
+    <p><b>Blood Pressure (mmHg):</b> Measures the force of blood against arteries. Normal BP is 120/80 mmHg.</p>
+    <p><b>Oxygen Level (SpO2 %):</b> Measures oxygen saturation in the blood. Normal range is 95-100%.</p>
+    <p><b>Body Temperature (°C):</b> Normal temperature is around 36.5-37.5°C (97.7-99.5°F).</p>
+</section>
+
+<!-- 🔍 Input Section -->
+<div class="input-container">
+    <input type="text" id="patientIdInput" placeholder="Enter Patient ID">
+    <button id="fetchButton" onclick="fetchPatientData()">Fetch Data</button>
+</div>
+
+<!-- Error Message Container -->
+<div id="errorContainer" class="error-message" style="display: none; color: red;"></div>
+
+<!-- 📊 Charts Section -->
+<div class="charts">
+    <div class="chart-container">
+        <canvas id="lineChart"></canvas>
+        <br>
+        <div class="chart-label">Vital Signs Trend Over Time</div>
+    </div>
+    <div class="chart-container">
+        <canvas id="barChart"></canvas>
+        <br>
+        <div class="chart-label">Patient Health Metrics Comparison</div>
+    </div>
+</div>
+
+<script>
+let lineChart, barChart; // To store chart instances
+const csvUrl = "{% static 'human_vital_signs_dataset_2024.csv' %}";
+
+async function fetchPatientData() {
+    const patientIdInput = document.getElementById("patientIdInput");
+    const errorContainer = document.getElementById("errorContainer");
+    const patientId = patientIdInput.value.trim();
+
+    // Reset error message and previous charts
+    errorContainer.style.display = 'none';
+    errorContainer.textContent = '';
+
+    if (!patientId) {
+        errorContainer.textContent = "Please enter a valid Patient ID.";
+        errorContainer.style.display = 'block';
+        return;
+    }
+
+    try {
+        // Fetch the CSV file
+        const response = await fetch(csvUrl);
+        
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const csvText = await response.text();
+
+        // Ensure PapaParse is available before parsing
+        if (typeof Papa === 'undefined') {
+            throw new Error("PapaParse library not loaded");
+        }
+
+        // Parse CSV using PapaParse
+        Papa.parse(csvText, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                const data = results.data;
+
+                // Find patient by ID
+                const patient = data.find(row => row["Patient ID"] == patientId);
+
+                if (!patient) {
+                    errorContainer.textContent = `Patient with ID ${patientId} not found!`;
+                    errorContainer.style.display = 'block';
+                    return;
+                }
+
+                console.log("Patient Data:", patient);
+
+                // Extract values for visualization
+                const labels = ["Heart Rate", "Blood Pressure", "Oxygen Level", "Body Temperature"];
+                const values = [
+                    patient["Heart Rate"],
+                    patient["Systolic Blood Pressure"],
+                    patient["Oxygen Saturation"],
+                    patient["Body Temperature"]
+                ];
+
+                updateCharts(labels, values);
+            },
+            error: function(error) {
+                console.error("Papa Parse Error:", error);
+                errorContainer.textContent = "Error parsing CSV file.";
+                errorContainer.style.display = 'block';
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching CSV:", error);
+        errorContainer.textContent = "Unable to fetch patient data. Please try again.";
+        errorContainer.style.display = 'block';
+    }
+}
+
+// Function to update charts
+function updateCharts(labels, values) {
+    const lineCtx = document.getElementById("lineChart").getContext("2d");
+    const barCtx = document.getElementById("barChart").getContext("2d");
+
+    // Destroy existing charts before creating new ones
+    if (lineChart) lineChart.destroy();
+    if (barChart) barChart.destroy();
+
+    // 🌟 Improved Line Chart (Smoother and More Responsive)
+    lineChart = new Chart(lineCtx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Vital Signs Trend",
+                data: values,
+                borderColor: "rgba(255, 99, 132, 1)", 
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderWidth: 3,
+                pointRadius: 5,
+                tension: 0.3 // Smoother curve
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: false } 
+            }
+        }
+    });
+
+    // 🌟 Improved Bar Chart (More Readable Colors)
+    barChart = new Chart(barCtx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Patient Health Metrics",
+                data: values,
+                backgroundColor: [
+                    "rgba(54, 162, 235, 0.8)", // Blue for Heart Rate
+                    "rgba(255, 206, 86, 0.8)", // Yellow for BP
+                    "rgba(75, 192, 192, 0.8)", // Green for Oxygen
+                    "rgba(255, 99, 132, 0.8)"  // Red for Temperature
+                ],
+                borderColor: "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+// Optional: Add a check to ensure libraries are loaded
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Papa === 'undefined') {
+        console.error('PapaParse library not loaded');
+    }
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js library not loaded');
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  margin: 40px;
+  background-color: #f0f8ff; /* Light blue background */
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #003366;
+}
+
+/* 🚀 Introduction Section Styling */
+.introduction {
+  background: #ffffff; /* White background for contrast */
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  text-align: left;
+}
+
+.introduction h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #002b5e;
+  border-bottom: 2px solid #0056b3;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.introduction p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 📌 Emphasizing Key Metrics */
+.introduction p b {
+  color: #0056b3;
+  font-size: 20px;
+}
+
+.introduction p::before {
+  content: "• ";
+  color: #ff4500;
+  font-weight: bold;
+}
+
+/* 🎨 Input and Button Styling */
+input {
+  margin: 10px;
+  padding: 15px;
+  font-size: 20px;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+button {
+  margin: 10px;
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: darkgreen;
+}
+
+/* 📊 Chart Layout */
+.charts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.chart-container {
+  width: 90%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 400px !important;
+}
+
+/* 🔖 Graph Labels */
+.chart-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: -10px;
+}

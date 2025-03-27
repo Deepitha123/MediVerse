@@ -1,124 +1,29 @@
-   /* Paste your entire CSS here */
-   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+.one {
+    background-color: white;
+    height: 738px;
+    width: 804px;
+    margin: 43.6px auto; /* centers horizontally */
+    padding: 10px;
+    border-radius: 10px;
+    border: solid #f8c8d2;
+    border-bottom-left-radius: 80px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
 
-   * {
-       margin: 0;
-       padding: 0;
-       box-sizing: border-box;
-       font-family: 'Poppins', sans-serif;
-   }
+.two {
+    background-color: #22B8A2;
+    height: 710px;
+    width: 314px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 80px;
+    border-bottom-left-radius: 80px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
 
-   body {
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       height: 100vh;
-       background: linear-gradient(135deg, #4facfe, #00f2fe);
-       animation: fadeIn 1s ease-in-out;
-   }
-
-   @keyframes fadeIn {
-       from { opacity: 0; }
-       to { opacity: 1; }
-   }
-
-   .container {
-       width: 100%;
-       max-width: 400px;
-       animation: slideUp 0.8s ease-in-out;
-   }
-
-   @keyframes slideUp {
-       from { transform: translateY(50px); opacity: 0; }
-       to { transform: translateY(0); opacity: 1; }
-   }
-
-   .form-box {
-       background: white;
-       padding: 25px;
-       border-radius: 10px;
-       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-       text-align: center;
-       transition: transform 0.3s ease-in-out;
-   }
-
-   .form-box:hover {
-       transform: scale(1.03);
-   }
-
-   h2 {
-       color: #333;
-       margin-bottom: 20px;
-       font-weight: 600;
-   }
-
-   form {
-       display: flex;
-       flex-direction: column;
-       gap: 15px;
-   }
-
-   input, select, textarea {
-       width: 100%;
-       padding: 12px;
-       border: 1px solid #ccc;
-       border-radius: 5px;
-       font-size: 16px;
-       transition: all 0.3s ease-in-out;
-       opacity: 0;
-       animation: fadeInputs 0.8s ease-in-out forwards;
-   }
-
-   @keyframes fadeInputs {
-       from { opacity: 0; transform: translateY(20px); }
-       to { opacity: 1; transform: translateY(0); }
-   }
-
-   input:focus, select:focus, textarea:focus {
-       border-color: #4facfe;
-       box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
-       outline: none;
-   }
-
-   button {
-       background: #4facfe;
-       color: white;
-       padding: 12px;
-       font-size: 16px;
-       border: none;
-       border-radius: 5px;
-       cursor: pointer;
-       transition: background 0.3s ease-in-out, transform 0.2s;
-   }
-
-   button:hover {
-       background: #009ffd;
-       transform: scale(1.05);
-   }
-
-   .toggle-form {
-       margin-top: 10px;
-       font-size: 14px;
-       opacity: 0;
-       animation: fadeInputs 1s ease-in-out forwards;
-   }
-
-   #switch, #switch-back {
-       color: #4facfe;
-       cursor: pointer;
-       font-weight: bold;
-   }
-
-   #switch:hover, #switch-back:hover {
-       text-decoration: underline;
-   }
-
-   .hidden {
-       display: none;
-   }
-
-   @media (max-width: 450px) {
-       .form-box {
-           padding: 20px;
-       }
-   }
+body {
+    background-image: url('assets/Green Illustrative Medical Healthcare Virtual Zoom Background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    font-family: 'Poppins', sans-serif; /* optional, for cleaner text */
+}

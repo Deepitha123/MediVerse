@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'lifestyle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<h1>Select a Category</h1>
+<div class="category-container">
+    <div class="category" onclick="showRecommendations('Diabetes')">
+        <img src="{% static '/assets/sugar-blood-level.png' %}" alt="">
+        <span>Diabetes</span>
+    </div>
+    <div class="category" onclick="showRecommendations('Fever')">
+        <img src="{% static '/assets/sick.png' %}" alt="">
+        <span>Fever</span>
+    </div>
+    <div class="category" onclick="showRecommendations('Cold')">
+        <img src="{% static '/assets/cold.png' %}" alt="">
+        <span>Cold</span>
+    </div>
+    <div class="category" onclick="showRecommendations('BP')">
+        <img src="{% static '/assets/blood-pressure-monitor.png' %}" alt="">
+        <span>BP</span>
+    </div>
+    <div class="category" onclick="showRecommendations('Cancer')">
+        <img src="{% static '/assets/cancer.png' %}" alt="">
+        <span>Cancer</span>
+    </div>
+    <div class="category" onclick="showRecommendations('Stress')">
+        <img src="{% static '/assets/stress.png' %}" alt="">
+        <span>Stress</span>
+    </div>
+</div>
+
+<!-- Modal (Pop-up) -->
+<div id="recommendation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="recommendation-title"></h2>
+        <div id="recommendations"></div>
+    </div>
+</div>
+
+<script>
+    const recommendations = {
+        'Diabetes': [
+            '🥦 Eat whole foods like vegetables, lean proteins, and healthy fats to control blood sugar.',
+'🏃‍♂️ Exercise regularly, such as walking, yoga, or cycling, to improve insulin sensitivity.',
+'🩸 Monitor glucose levels daily to adjust your diet and medications.',
+'💧 Drink plenty of water to flush out excess glucose and stay hydrated.',
+'🚫 Avoid sugary drinks like soda and fruit juices to prevent blood sugar spikes.'
+
+        ],
+        'Fever': [
+            '💧 Stay hydrated with water and herbal tea.',  
+'😴 Rest well to let your body recover.',  
+'💊 Take fever-reducing medications if needed.',  
+'🥣 Eat light, nutritious foods like soup and fruits.',  
+'🧊 Use a cool compress to bring down body temperature.'  
+
+        ],
+        'Cold': [
+            '🍵 Drink warm teas and soups to soothe your throat.',  
+'😴 Get plenty of sleep to support your immune system.',  
+'🍊 Eat vitamin C-rich foods like oranges and leafy greens.',  
+'🧂 Gargle warm salt water to reduce bacteria.',  
+'🌫️ Use a humidifier to ease congestion.'  
+
+        ],
+        'BP': [
+            '🧂 Reduce sodium intake to prevent hypertension.',  
+'🏊‍♂️ Do aerobic exercises like swimming to keep your heart healthy.',  
+'🍌 Eat potassium-rich foods like bananas and spinach.',  
+'🧘 Practice meditation or relaxation techniques.',  
+'📉 Monitor your blood pressure regularly.'  
+
+        ],
+        'Cancer': [
+            '🥗 Eat a balanced diet rich in vegetables and whole grains.',  
+'🏃‍♂️ Exercise regularly to strengthen your immune system.',  
+'🚭 Avoid tobacco and excessive alcohol.',  
+'🩺 Get regular cancer screenings for early detection.',  
+'⚖️ Maintain a healthy weight to reduce risk factors.'  
+
+        ],
+        'Stress': [
+            '🧘 Practice mindfulness and deep breathing exercises.',  
+'😴 Get at least 7-9 hours of sleep daily.',  
+'🏃 Engage in regular physical activity to boost mood.',  
+'🎨 Do hobbies like painting or reading to relax.',  
+'🥗 Eat a nutritious diet to support mental health.'  
+
+        ]
+    };
+
+    function showRecommendations(category) {
+        const modal = document.getElementById('recommendation-modal');
+        const recContainer = document.getElementById('recommendations');
+        const recTitle = document.getElementById('recommendation-title');
+
+        recContainer.innerHTML = '';
+        recTitle.innerText = category + " Recommendations";
+        modal.style.display = 'flex';
+
+        recommendations[category].forEach(rec => {
+            const recElement = document.createElement('div');
+            recElement.className = 'recommendation';
+            recElement.innerHTML = `<span>${rec}</span>`;
+            recContainer.appendChild(recElement);
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('recommendation-modal').style.display = 'none';
+    }
+</script>
+
+{% endblock %}

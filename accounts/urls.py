@@ -9,6 +9,8 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('editprofile', views.editprofile, name='editprofile'),
     path('logout/', views.logout_view, name='logout'),
+    path('wound/', views.wound_analysis, name='wound_analysis'),
+
 
 
 

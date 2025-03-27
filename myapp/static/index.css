@@ -62,7 +62,7 @@ body {
   width: 100%;
   border-radius: 10px;
 }
-.card button {
+.button {
   background-color: #1e88e5;
   color: white;
   border: none;
@@ -70,6 +70,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-.card button:hover {
+.button:hover {
   background-color: #1565c0;
 }

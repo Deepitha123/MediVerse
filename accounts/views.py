@@ -6,6 +6,51 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import logout
+import cv2
+import numpy as np
+import base64
+from io import BytesIO
+from matplotlib import pyplot as plt
+from django.shortcuts import render
+from Deepskin.deepskin import wound_segmentation, evaluate_PWAT_score
+
+def wound_analysis(request):
+    if request.method == 'POST':
+        image_file = request.FILES['image']
+        img_array = np.frombuffer(image_file.read(), np.uint8)
+        bgr = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+        rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+
+        wound_mask = wound_segmentation(rgb)
+        pwat_score = evaluate_PWAT_score(rgb, wound_mask)
+
+        if pwat_score <= 4:
+            wound_type = "Mild / No wound"
+        elif pwat_score <= 8:
+            wound_type = "Moderate wound"
+        elif pwat_score <= 12:
+            wound_type = "Severe wound"
+        else:
+            wound_type = "Very Severe / Chronic wound"
+
+        # Encode images to base64 for HTML display
+        def encode_img(img):
+            buffer = BytesIO()
+            plt.imsave(buffer, img)
+            buffer.seek(0)
+            return base64.b64encode(buffer.read()).decode()
+
+        original_image = encode_img(rgb)
+        wound_mask_img = encode_img(wound_mask)
+
+        return render(request, 'wound_analysis.html', {
+            'pwat_score': round(pwat_score, 2),
+            'wound_type': wound_type,
+            'original_image': original_image,
+            'wound_mask': wound_mask_img
+        })
+    return render(request, 'wound_analysis.html')
+
 
 User = get_user_model()
 

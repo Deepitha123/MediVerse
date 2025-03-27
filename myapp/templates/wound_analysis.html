@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'wound_analysis.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Wound Assessment Module</h2>
+
+    <form action="{% url 'wound_analysis' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*" required><br><br>
+        <button type="submit" class="cta-button">Analyze Wound</button>
+    </form>
+
+    {% if pwat_score %}
+        <div class="result">
+            <h3>PWAT Score: {{ pwat_score }}</h3>
+            <h4>Wound Type: {{ wound_type }}</h4>
+            <div class="images">
+                <div>
+                    <h5>Original Image</h5>
+                    <img src="data:image/png;base64,{{ original_image }}" alt="Original Image"/>
+                </div>
+                <div>
+                    <h5>Wound Mask</h5>
+                    <img src="data:image/png;base64,{{ wound_mask }}" alt="Wound Mask"/>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

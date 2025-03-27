@@ -3,17 +3,16 @@
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
 {% endblock %} 
-{% block content %}
-<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+{% block content %}  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active" data-bs-interval="10000">
-      <img src="{%static "assets/first_card.jpeg"%}" class="d-block w-100" alt="..." style="height: 650px;">
+      <img src="{% static 'assets/first_card.jpeg' %}" class="d-block w-100 my-3" alt="..." style="height: 650px; width: 500px;">
     </div>
     <div class="carousel-item" data-bs-interval="2000">
-      <img src="{%static "assets/image_2.jpeg"%}" class="d-block w-100" alt="..." style="height: 650px;">>
+      <img src="{% static 'assets/image_2.jpeg' %}" class="d-block w-100 my-3" alt="..." style="height: 650px;">>
     </div>
     <div class="carousel-item">
-      <img src="{%static "assets/tablets.jpeg"%}" class="d-block w-100" alt="..." style="height: 650px;">>
+      <img src="{% static 'assets/tablets.jpeg' %}" class="d-block w-100 my-3" alt="..." style="height: 650px;">>
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
@@ -27,48 +26,78 @@
 </div>
 
 <section class="features">
-  <div class="card" >
-      <img src="{%static "assets/E_records.jpeg"%}" alt="Digital Records">
-      <h2>Patients' Digital Records</h2>
-      <p>Access and manage medical records securely.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/audio_analysis.jpg"%}" alt="Audio Analysis">
-      <h2>Audio Analysis</h2>
-      <p>Advanced AI-powered audio-based diagnostics.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/image_analysis.avif"%}" alt="Image Analysis">
-      <h2>Image-Based Analysis</h2>
-      <p>Automated medical imaging diagnostics.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/lifestyle.jpg"%}" alt="Lifestyle Recommendations">
-      <h2>Lifestyle Recommendations</h2>
-      <p>Personalized health and wellness guidance.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/mental_health.avif"%}" alt="Mental Health">
-      <h2>Mental Health & Chronic Care</h2>
-      <p>Support for mental well-being and chronic conditions.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/ordering_medicines.jpg"%}" alt="Ordering Medicines">
-      <h2>Ordering Medicines</h2>
-      <p>Get medications delivered to your doorstep.</p>
-      <button>Click Here</button>
-  </div>
-  <div class="card">
-      <img src="{%static "assets/self_order.jpeg"%}" alt="Self Order">
-      <h2>Self Order</h2>
-      <p>Order medical tests and reports online.</p>
-      <button>Click Here</button>
-  </div>
+  <div class="card " style="width: 18rem;">
+      <img src="{% static 'assets/E_records.jpeg' %}" class="card-img-top" alt="Digital Records">
+      <div class="card-body">
+        <h5 class="card-title">Patients' Digital Records</h5>
+        <p class="card-text">Access and manage medical records securely.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card mt-4" style="width: 18rem;">
+      <img src="{% static 'assets/audio_analysis.jpg' %}" class="card-img-top" alt="Audio Analysis">
+      <div class="card-body">
+        <h5 class="card-title mt-4 ">Audio Analysis</h5>
+        <p class="card-text mt-4">Advanced AI-powered audio-based diagnostics.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card mt-4" style="width: 18rem;">
+      <img src="{% static 'assets/image_analysis.avif' %}" class="card-img-top" alt="Image Analysis">
+      <div class="card-body">
+        <h5 class="card-title">Image-Based Analysis</h5>
+        <p class="card-text">Automated medical imaging diagnostics.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card" style="width: 18rem;">
+      <img src="{% static 'assets/lifestyle.jpg' %}" class="card-img-top" alt="Lifestyle Recommendations">
+      <div class="card-body">
+        <h5 class="card-title">Lifestyle Recommendations</h5>
+        <p class="card-text">Personalized health and wellness guidance.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card" style="width: 18rem;">
+      <img src="{% static 'assets/mental_health.avif' %}" class="card-img-top" alt="Mental Health">
+      <div class="card-body">
+        <h5 class="card-title">Mental Health & Chronic Care</h5>
+        <p class="card-text">Support for mental well-being and chronic conditions.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card" style="width: 18rem;">
+      <img src="{% static 'assets/ordering_medicines.jpg' %}" class="card-img-top" alt="Ordering Medicines">
+      <div class="card-body">
+        <h5 class="card-title">Ordering Medicines</h5>
+        <p class="card-text">Get medications delivered to your doorstep.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
+    <div class="card" style="width: 18rem;">
+      <img src="{% static 'assets/self_order.jpeg' %}" class="card-img-top" alt="Self Order">
+      <div class="card-body">
+        <h5 class="card-title">Self Order</h5>
+        <p class="card-text">Order medical tests and reports online.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+
+    <div class="card " style="width: 18rem;">
+      <img src="{% static 'assets/E_records.jpeg' %}" class="card-img-top" alt="Digital Records">
+      <div class="card-body">
+        <h5 class="card-title">Health Status Tracking</h5>
+        <p class="card-text">Monitor real time health data using wearable devices.</p>
+        <a href="#" class="btn btn-primary">Click Here</a>
+      </div>
+    </div>
+    
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>

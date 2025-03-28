@@ -121,3 +121,15 @@ def health_status(request):
 
 def lifestyle_recommendations(request):
     return render(request, 'lifestyle_recommendations.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def mental_health(request):
+    return render(request, 'mental_health.html')
+
+def stress_analysis(request):
+    return render(request, 'stress_analysis.html')
+
+def sleep_analysis(request):
+    return render(request, 'sleep_analysis.html')

@@ -1,0 +1,73 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  background-color: #b3daff; /* More contrast */
+}
+
+/* Enlarged Charts */
+canvas {
+  max-width: 900px; /* Increased chart width */
+  height: 500px; /* Increased chart height */
+  margin: 40px auto;
+  display: block;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  font-size: 42px; /* Increased heading size */
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 36px;
+  color: #222;
+  margin-top: 50px;
+}
+
+/* Hobby List */
+ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 28px; /* Bigger font for hobbies */
+}
+
+li {
+  margin: 15px;
+  font-size: 26px;
+}
+
+a {
+  text-decoration: none;
+  color: #0044cc;
+  font-weight: bold;
+}
+
+/* Styling for hobby links */
+a:hover {
+  color: #002266;
+  text-decoration: underline;
+}
+
+/* Button */
+button {
+  padding: 20px 35px;
+  margin-top: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: darkgreen;
+}

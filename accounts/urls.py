@@ -12,7 +12,10 @@ urlpatterns = [
     path('wound/', views.wound_analysis, name='wound_analysis'),
     path('health_status/', views.health_status, name='health_status'),
     path('lifestyle_recommendations/', views.lifestyle_recommendations, name='lifestyle_recommendations'),
-
+    path('about/', views.about, name='about'),
+    path('mental_health/', views.mental_health, name='mental_health'),
+    path('stress_analysis/', views.stress_analysis, name='stress_analysis'),
+    path('sleep_analysis/', views.sleep_analysis, name='sleep_analysis'),
 
 
 

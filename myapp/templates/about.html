@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'about.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+  <section class="vision-mission">
+      <div class="vision fade-in">
+          <h2>🚀 Our Vision</h2>
+          <br>
+          <p>"To revolutionize healthcare accessibility and precision by leveraging AI-powered diagnostics, enabling early detection and personalized treatment for a healthier future."</p>
+      </div>
+
+      <div class="mission fade-in">
+          <h2>🎯 Our Mission</h2>
+          <ul>
+            <li><strong>Empower Healthcare with AI:</strong> Develop intelligent models that assist in medical diagnosis and treatment planning.</li>
+            <li><strong>Simplify Patient Care:</strong> Create a user-friendly digital platform for patients and healthcare professionals.</li>
+            <li><strong>Promote Preventive Healthcare:</strong> Utilize AI insights to forecast potential health risks and encourage early intervention.</li>
+        </ul>
+      </div>
+  </section>
+</div>
+{% endblock %}

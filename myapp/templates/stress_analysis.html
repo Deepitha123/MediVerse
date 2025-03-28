@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'stress_analysis.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<h1>📊 Stress Analysis</h1>
+<canvas id="stressChart"></canvas>
+
+<h2>🧘 Recommended Hobbies</h2>
+<ul id="hobby-list"></ul>
+
+<a href="https://www.psychologytoday.com/" target="_blank">
+    <button>📈 View More Insights</button>
+</a>
+
+
+<script>
+  let patientId = localStorage.getItem("patientId");
+
+  if (!patientId) {
+      alert("⚠️ Patient ID not found. Please enter your details first.");
+      window.location.href = "{% url 'index' %}"; // Redirects to input page
+  }
+  
+
+    Papa.parse("{% static 'sleep_data_50_patients.csv' %}", {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function (results) {
+            let data = results.data.filter(row => row.Patient_ID === patientId).slice(-7);
+            if (data.length === 0) {
+                alert("No data found for this Patient ID.");
+                return;
+            }
+
+            let dates = data.map(row => row.Date);
+            let stressLevels = data.map(row => row["Stress_Level (1-5)"]);
+
+            let ctx = document.getElementById("stressChart").getContext("2d");
+            new Chart(ctx, {
+                type: "bar",
+                data: { 
+                    labels: dates, 
+                    datasets: [{ 
+                        label: "Stress Level (1-5)", 
+                        data: stressLevels, 
+                        backgroundColor: "orange",
+                        borderColor: "#ff8000",
+                        borderWidth: 3
+                    }] 
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: { size: 18 } /* Bigger axis labels */
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 18 }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: { size: 22 } /* Bigger legend text */
+                            }
+                        }
+                    }
+                }
+            });
+
+            recommendHobbies(stressLevels);
+        }
+    });
+
+    function recommendHobbies(stressLevels) {
+        let avgStress = Math.round(stressLevels.reduce((a, b) => a + b, 0) / stressLevels.length);
+        let hobbies = {
+            1: [
+                { name: "📖 Reading", link: "https://www.goodreads.com" },
+                { name: "🎵 Music", link: "https://www.spotify.com" },
+                { name: "🌿 Gardening", link: "https://www.gardeningknowhow.com" }
+            ],
+            2: [
+                { name: "🎨 Painting", link: "https://www.skillshare.com" },
+                { name: "🧘 Yoga", link: "https://www.yogajournal.com" },
+                { name: "🚶 Walking", link: "https://www.healthline.com/nutrition/walking-benefits" }
+            ],
+            3: [
+                { name: "🧘‍♂️ Meditation", link: "https://www.headspace.com" },
+                { name: "📓 Journaling", link: "https://www.bulletjournal.com" },
+                { name: "🍳 Cooking", link: "https://www.allrecipes.com" }
+            ],
+            4: [
+                { name: "🏋️ Exercise", link: "https://www.nerdfitness.com" },
+                { name: "💃 Dancing", link: "https://www.steezy.co" },
+                { name: "🚴 Cycling", link: "https://www.bicycling.com" }
+            ],
+            5: [
+                { name: "🧑‍⚕️ Therapy", link: "https://www.betterhelp.com" },
+                { name: "🗣️ Counseling", link: "https://www.psychologytoday.com" },
+                { name: "🧘‍♀️ Mindfulness", link: "https://www.mindful.org" }
+            ]
+        };
+
+        let hobbyList = document.getElementById("hobby-list");
+        hobbyList.innerHTML = ""; // Clear previous list
+
+        hobbies[avgStress].forEach(hobby => {
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            a.textContent = hobby.name;
+            a.href = hobby.link;
+            a.target = "_blank"; // Opens in a new tab
+            a.style.color = "#0044cc"; // Darker blue
+            a.style.textDecoration = "underline";
+            li.appendChild(a);
+            hobbyList.appendChild(li);
+        });
+    }
+
+   
+</script>
+
+{% endblock %}

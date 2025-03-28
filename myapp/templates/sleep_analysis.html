@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'sleep_analysis.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<h1>📈 Sleep Analysis</h1>
+<canvas id="sleepDurationChart"></canvas>
+<canvas id="sleepEfficiencyChart"></canvas>
+
+<button onclick="nextPage()">Analyze my Stress 📊</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let patientId = localStorage.getItem("patientId");
+
+    if (!patientId) {
+        alert("⚠️ Patient ID not found. Please enter your details first.");
+        window.location.href = "{% url 'index' %}"; // Redirect to input page
+        return;
+    }
+
+    console.log("✅ Retrieved Patient ID:", patientId); // Debugging log
+
+    Papa.parse("{% static 'sleep_data_50_patients.csv' %}", {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function (results) {
+            console.log("✅ Parsed Data:", results.data); // Debugging log
+
+            let data = results.data.filter(row => row.Patient_ID === patientId).slice(-7);
+
+            if (data.length === 0) {
+                alert("⚠️ No sleep data found for this Patient ID.");
+                return;
+            }
+
+            let dates = data.map(row => row.Date);
+            let sleepHours = data.map(row => row["Sleep_Duration (hrs)"]);
+            let sleepEfficiency = data.map(row => row["Sleep_Efficiency (%)"]);
+
+            drawChart("sleepDurationChart", "Sleep Duration (hrs)", dates, sleepHours, "blue");
+            drawChart("sleepEfficiencyChart", "Sleep Efficiency (%)", dates, sleepEfficiency, "green");
+        }
+    });
+  });
+
+  function nextPage() {
+      console.log("📌 Redirecting to stress analysis...");
+      window.location.href = "{% url 'stress_analysis' %}";
+  }
+
+  function drawChart(canvasId, label, labels, data, color) {
+      let ctx = document.getElementById(canvasId).getContext("2d");
+      new Chart(ctx, {
+          type: "line",
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: label,
+                  data: data,
+                  borderColor: color,
+                  backgroundColor: `rgba(${color === "blue" ? "0,0,255" : "0,128,0"}, 0.1)`,
+                  borderWidth: 5,
+                  pointRadius: 8,
+                  fill: true
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      ticks: { font: { size: 20 } },
+                      title: { display: true, text: label.includes("Duration") ? "Hours" : "Efficiency (%)", font: { size: 25 } }
+                  },
+                  x: {
+                      ticks: { font: { size: 20 } },
+                      title: { display: true, text: "Date", font: { size: 25 } }
+                  }
+              },
+              plugins: { legend: { labels: { font: { size: 22 } } } }
+          }
+      });
+  }
+</script>
+
+
+{% endblock %}

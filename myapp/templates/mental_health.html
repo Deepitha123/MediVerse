@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'mental_health.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>🌙Track your Sleep Cycle!</h1>
+  <div class="input-group">
+      <input type="text" id="patient_id" required placeholder="Patient ID (e.g., P001)">
+      <input type="text" id="patient_name" required placeholder="Patient Name">
+  </div>
+  <button onclick="proceed()">Proceed</button>
+</div>
+
+<script>
+  function proceed() {
+    let patientIdField = document.getElementById("patient_id");
+    let patientNameField = document.getElementById("patient_name");
+
+    if (!patientIdField || !patientNameField) {
+        alert("⚠️ Input fields not found. Please check the HTML structure.");
+        return;
+    }
+
+    let patientId = patientIdField.value.trim().toUpperCase();
+    let patientName = patientNameField.value.trim();
+
+    if (patientId === "" || patientName === "") {
+        alert("⚠️ Please enter both Patient ID and Name.");
+        return;
+    }
+
+    console.log("Captured Patient ID:", patientId); // Debugging log
+    console.log("Captured Patient Name:", patientName);
+
+    localStorage.setItem("patientId", patientId);
+    localStorage.setItem("patientName", patientName);
+
+    // Add smooth transition effect before navigation
+    document.querySelector(".container").style.opacity = "0";
+    setTimeout(() => {
+        window.location.href = "{% url 'sleep_analysis' %}";  // Ensure this matches your URL pattern
+    }, 300);
+}
+
+</script>
+
+{% endblock %}

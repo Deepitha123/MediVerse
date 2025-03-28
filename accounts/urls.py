@@ -16,6 +16,12 @@ urlpatterns = [
     path('mental_health/', views.mental_health, name='mental_health'),
     path('stress_analysis/', views.stress_analysis, name='stress_analysis'),
     path('sleep_analysis/', views.sleep_analysis, name='sleep_analysis'),
+    path('order_medicines/', views.order_medicines, name='order_medicines'),
+    path('medicines/', views.medicines, name='medicines'),
+    path('cart/', views.cart, name='cart'),
+    path('discussion/', views.discussion, name='discussion'),
+    path('digital_records/', views.digital_records, name='digital_records'),
+
 
 
 

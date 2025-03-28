@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'order_medicines.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1>Select a Category</h1>
+<div class="category-container">
+    <div class="category" onclick="redirectToMedicines('Diabetes')">
+        <img src="{% static '/assets/sugar-blood-level.png' %}" alt="">
+        <span>Diabetes</span>
+    </div>
+    <div class="category" onclick="redirectToMedicines('Fever')">
+        <img src="{% static '/assets/sick.png' %}" alt="">
+        <span>Fever</span>
+    </div>
+    <div class="category" onclick="redirectToMedicines('Cold')">
+        <img src="{% static '/assets/cold.png' %}" alt="">
+        <span>Cold</span>
+    </div>
+    <div class="category" onclick="redirectToMedicines('BP')">
+        <img src="{% static '/assets/blood-pressure-monitor.png' %}" alt="">
+        <span>BP</span>
+    </div>
+    <div class="category" onclick="redirectToMedicines('Cancer')">
+        <img src="{% static '/assets/cancer.png' %}" alt="">
+        <span>Cancer</span>
+    </div>
+</div>
+
+<script>
+  function redirectToMedicines(category) {
+    window.location.href = `{% url 'medicines' %}?category=${category}`;
+}
+</script>
+
+
+{% endblock %}

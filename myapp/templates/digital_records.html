@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'digital_records.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Digital Health Record System</h1>
+
+<!-- Doctor enters Patient ID -->
+<div class="input-section">
+    <input type="text" id="patientId" placeholder="Enter Patient ID (eg. P001): ">
+    <button onclick="fetchPatientRecord()">Fetch Record</button>
+</div>
+
+<!-- Display Patient Details -->
+<div id="patientDetails" class="hidden">
+    <h2>Patient Information</h2>
+    <p><b>Name:</b> <span id="pName"></span></p>
+    <p><b>Age:</b> <span id="pAge"></span></p>
+    <p><b>Condition:</b> <span id="pCondition"></span></p>
+    <p><b>Medications:</b> <span id="pMedications"></span></p>
+    <p><b>Doctor's Notes:</b> <span id="pNotes"></span></p>
+
+    <!-- Sharing Options -->
+    <h3>Share it with the other doctor:</h3>
+    <button onclick="shareViaLink()">🔗 Share Link</button>
+    <button onclick="shareViaText()">📩 Share as Text</button>
+    <button onclick="generatePDF()">📄 Download PDF</button>
+</div>
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    function fetchPatientRecord() {
+        var patientId = document.getElementById("patientId").value;
+        fetch(`/api/get_patient/${patientId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("pName").innerText = data.name;
+                    document.getElementById("pAge").innerText = data.age;
+                    document.getElementById("pCondition").innerText = data.condition;
+                    document.getElementById("pMedications").innerText = data.medications;
+                    document.getElementById("pNotes").innerText = data.notes;
+                    document.getElementById("patientDetails").classList.remove("hidden");
+                } else {
+                    alert("Patient not found!");
+                }
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+
+    const patients = [
+    { id: "P001", name: "John Doe", age: 45, condition: "Hypertension", medications: ["Atenolol", "Lisinopril"], doctorNotes: "Regular BP checkups needed." },
+    { id: "P002", name: "Alice Smith", age: 30, condition: "Asthma", medications: ["Albuterol"], doctorNotes: "Carry inhaler at all times." },
+    { id: "P003", name: "Bob Johnson", age: 55, condition: "Diabetes", medications: ["Metformin"], doctorNotes: "Monitor sugar levels daily." },
+    { id: "P004", name: "Eve White", age: 28, condition: "Migraine", medications: ["Ibuprofen"], doctorNotes: "Avoid bright lights and caffeine." },
+    { id: "P005", name: "David Brown", age: 40, condition: "High Cholesterol", medications: ["Statins"], doctorNotes: "Low-fat diet recommended." },
+    { id: "P006", name: "Mary Adams", age: 60, condition: "Arthritis", medications: ["Naproxen"], doctorNotes: "Physical therapy advised." },
+    { id: "P007", name: "James Wilson", age: 50, condition: "Heart Disease", medications: ["Aspirin"], doctorNotes: "Routine ECGs needed." },
+    { id: "P008", name: "Linda Green", age: 35, condition: "Anemia", medications: ["Iron Supplements"], doctorNotes: "Iron-rich diet recommended." },
+    { id: "P009", name: "Robert Black", age: 42, condition: "Depression", medications: ["Sertraline"], doctorNotes: "Regular therapy sessions." },
+    { id: "P010", name: "Sophia Blue", age: 27, condition: "Thyroid Disorder", medications: ["Levothyroxine"], doctorNotes: "Blood tests every 6 months." }
+];
+
+// Fetch Patient Record by ID
+function fetchPatientRecord() {
+    const idInput = document.getElementById("patientId").value.trim().toUpperCase();
+    
+    console.log("Entered ID:", idInput);
+
+    const patient = patients.find(p => p.id === idInput);
+
+    if (!patient) {
+        alert("⚠️ Patient not found! Please check the ID.");
+        return;
+    }
+
+    displayPatientDetails(patient);
+}
+
+// Display Patient Information
+function displayPatientDetails(patient) {
+    document.getElementById("pName").textContent = patient.name;
+    document.getElementById("pAge").textContent = patient.age;
+    document.getElementById("pCondition").textContent = patient.condition;
+    document.getElementById("pMedications").textContent = patient.medications.join(", ");
+    document.getElementById("pNotes").textContent = patient.doctorNotes;
+
+    document.getElementById("patientDetails").classList.remove("hidden");
+}
+
+// Load Patient from URL (if accessed via shared link)
+function loadPatientFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const patientId = params.get("id");
+
+    if (patientId) {
+        console.log("Loading Patient ID from URL:", patientId);
+        const patient = patients.find(p => p.id === patientId.toUpperCase());
+
+        if (patient) {
+            displayPatientDetails(patient);
+        } else {
+            alert("⚠️ Invalid patient ID in URL.");
+        }
+    }
+}
+
+// Share via Link (Dynamic URL)
+function shareViaLink() {
+    const patientId = document.getElementById("patientId").value.trim().toUpperCase();
+    
+    if (!patientId) {
+        alert("⚠️ No patient selected!");
+        return;
+    }
+
+    const url = `${window.location.origin}${window.location.pathname}?id=${patientId}`;
+    navigator.clipboard.writeText(url);
+    alert("🔗 Link copied! Share it with another doctor.");
+}
+
+// Share as Text
+function shareViaText() {
+    const text = `Patient Report:\nName: ${document.getElementById("pName").textContent}\nCondition: ${document.getElementById("pCondition").textContent}\nMedications: ${document.getElementById("pMedications").textContent}`;
+    navigator.clipboard.writeText(text);
+    alert("📩 Text copied! Paste it in a message.");
+}
+
+// Generate PDF
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Patient Health Record", 10, 10);
+    doc.text(`Name: ${document.getElementById("pName").textContent}`, 10, 30);
+    doc.text(`Age: ${document.getElementById("pAge").textContent}`, 10, 40);
+    doc.text(`Condition: ${document.getElementById("pCondition").textContent}`, 10, 50);
+    doc.text(`Medications: ${document.getElementById("pMedications").textContent}`, 10, 60);
+    doc.save("Patient_Record.pdf");
+}
+
+</script>
+
+{% endblock %}
+{% endblock %}

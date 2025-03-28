@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'cart.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<h1>Shopping Cart 🛒</h1>
+<div id="medicine-list" class="medicine-list"></div>
+<div id="cart-summary" class="cart-summary">
+    <h2>Bill Summary</h2>
+    <p><strong>Total Price:</strong> ₹<span id="total-price">0</span></p>
+    <button class="checkout-button" onclick="checkout()">Proceed to Checkout</button>
+</div>
+<div id="next-order-notification">
+    <h2>Next Refill Reminder</h2>
+    <p>Your next medicine refill is due on <strong id="next-order-date"></strong>.</p>
+    <a id="calendar-link" href="#" target="_blank">📅 Add to Calendar</a>
+    <button id="download-pdf" onclick="downloadInvoice()">📄 Download Invoice</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", loadCart);
+
+    function loadCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const medicineList = document.getElementById("medicine-list");
+        const totalPriceElement = document.getElementById("total-price");
+        const cartSummary = document.getElementById("cart-summary");
+        
+        medicineList.innerHTML = "";
+        let totalPrice = 0;
+
+        if (cart.length > 0) {
+            cart.forEach((med, index) => {
+                const card = document.createElement("div");
+                card.className = "medicine-card";
+                card.innerHTML = `
+                    <img src="${med.image}" alt="${med.name}">
+                    <h3>${med.name}</h3>
+                    <p><strong>Price:</strong> ₹${med.price}</p>
+                    <button class="remove-button" onclick="removeFromCart(${index})">Remove</button>
+                `;
+                medicineList.appendChild(card);
+                totalPrice += parseFloat(med.price);
+            });
+            cartSummary.style.display = "block";
+        } else {
+            medicineList.innerHTML = "<p>Your cart is empty.</p>";
+            cartSummary.style.display = "none";
+        }
+
+        totalPriceElement.innerText = totalPrice.toFixed(2);
+    }
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart();
+    }
+
+    function checkout() {
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+}
+
+if (confirm("Proceed to checkout?")) {
+    localStorage.setItem("lastPurchasedCart", JSON.stringify(cart)); // Store cart before clearing
+    localStorage.removeItem("cart"); // Clear cart
+
+    let nextOrderDate = new Date();
+    nextOrderDate.setDate(nextOrderDate.getDate() + 30);
+    let formattedDate = nextOrderDate.toDateString();
+    localStorage.setItem("nextOrderDate", formattedDate);
+
+    alert("Checkout successful! Your next refill reminder is set for " + formattedDate);
+    showReminder(formattedDate);
+}
+}
+
+    function showReminder(date) {
+        document.getElementById("medicine-list").style.display = "none";
+        document.getElementById("cart-summary").style.display = "none";
+        const notificationBox = document.getElementById("next-order-notification");
+        notificationBox.style.display = "block";
+        document.getElementById("next-order-date").innerText = date;
+        let googleCalendarURL = `https://www.google.com/calendar/render?action=TEMPLATE&text=Medicine%20Refill%20Reminder&details=Time%20to%20reorder%20your%20medicines.&dates=${date}/${date}`;
+        document.getElementById("calendar-link").href = googleCalendarURL;
+    }
+
+    function downloadInvoice() {
+let cart = JSON.parse(localStorage.getItem("lastPurchasedCart")) || [];
+
+if (cart.length === 0) {
+    alert("No items to generate an invoice.");
+    return;
+}
+
+generateBill(cart);
+}
+
+
+    function generateBill(cart) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("MEDICAL STORE INVOICE", 60, 20);
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("Date: " + new Date().toLocaleDateString(), 150, 30);
+        doc.text("Customer Name: Lenin", 20, 40);
+        doc.text("Address: 4/22 Perumalpuram, Arumuganeri, India", 20, 50);
+
+        doc.setFont("helvetica", "bold");
+        doc.text("-------------------------------------------------------------", 20, 60);
+        doc.text("Item", 20, 70);
+        doc.text("Price", 150, 70);
+        doc.text("-------------------------------------------------------------", 20, 75);
+
+        let y = 85;
+        let totalPrice = 0;
+        doc.setFont("helvetica", "normal");
+
+        cart.forEach((med) => {
+            doc.text(med.name, 20, y);
+            doc.text("₹" + med.price, 150, y);
+            y += 10;
+            totalPrice += parseFloat(med.price);
+        });
+
+        doc.setFont("helvetica", "bold");
+        doc.text("-------------------------------------------------------------", 20, y);
+        doc.text("Total Price:", 20, y + 10);
+        doc.text("₹" + totalPrice.toFixed(2), 150, y + 10);
+        doc.text("-------------------------------------------------------------", 20, y + 15);
+        doc.text("Thank you for shopping with us!", 60, y + 30);
+
+        doc.save("Invoice.pdf");
+    }
+</script>
+
+{% endblock %}

@@ -13,6 +13,9 @@ from io import BytesIO
 from matplotlib import pyplot as plt
 from django.shortcuts import render
 from Deepskin.deepskin import wound_segmentation, evaluate_PWAT_score
+import json
+import os
+from django.conf import settings
 
 def wound_analysis(request):
     if request.method == 'POST':
@@ -133,3 +136,26 @@ def stress_analysis(request):
 
 def sleep_analysis(request):
     return render(request, 'sleep_analysis.html')
+
+def medicines(request):
+    return render(request, 'medicines.html')
+
+def order_medicines(request):
+    return render(request, 'order_medicines.html')
+
+def digital_records(request):
+    return render(request, 'digital_records.html')
+
+def cart(request):
+    return render(request, 'cart.html')
+
+def discussion(request):
+    return render(request, 'discussion.html')
+
+
+def medicine_view(request):
+    json_path = os.path.join(settings.BASE_DIR, 'static', 'data.json')  # Ensure correct path
+    with open(json_path, 'r') as file:
+        medicines = json.load(file)
+
+    return render(request, 'medicine.html', {'medicines': medicines})

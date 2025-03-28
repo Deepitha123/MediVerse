@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'medicines.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="cart-button-container">
+  <a href="cart.html" class="cart-button">🛒 Go to Cart</a>
+</div>
+<h1>Recommended Medicines</h1>
+<h2 id="category-title"></h2>
+<div id="medicine-list" class="medicine-list"></div>
+<a href="{% url 'cart' %}" class="cart-link">Go to Cart 🛒</a>
+
+<script>
+  function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+  }
+
+  const category = getQueryParam('category');
+  document.getElementById("category-title").innerText = category;
+
+  fetch("{% static 'medicines.json' %}")
+      .then(response => response.json())
+      .then(data => {
+          const filteredMedicines = data.filter(med => med.category === category);
+          const medicineList = document.getElementById("medicine-list");
+
+          if (filteredMedicines.length > 0) {
+              filteredMedicines.forEach(med => {
+                  const card = document.createElement("div");
+                  card.className = "medicine-card";
+
+                  // Dynamically construct the image path
+                  const imagePath = "{% static '' %}" + med.image;
+
+                  card.innerHTML = `
+                      <img src="${imagePath}" alt="${med.name}">
+                      <h3>${med.name}</h3>
+                      <p><strong>Description:</strong> ${med.description}</p>
+                      <p><strong>Price:</strong> ₹${med.price}</p>
+                      <p><strong>Manufacturer:</strong> ${med.manufacturer}</p>
+                      <p><strong>Dosage:</strong> ${med.dosage}</p>
+                      <p><strong>Availability:</strong> ${med.availability}</p>
+                      <p><strong>Rating:</strong> ⭐${med.rating}</p>
+                      <button class="add-to-cart" onclick='addToCart(${JSON.stringify(med)})'>Add to Cart</button>
+                  `;
+                  medicineList.appendChild(card);
+              });
+          } else {
+              medicineList.innerHTML = "<p>No medicines found for this category.</p>";
+          }
+      })
+      .catch(error => console.error("Error loading medicines:", error));
+
+  function addToCart(medicine) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(medicine);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${medicine.name} added to cart!`);
+  }
+</script>
+
+{% endblock %}

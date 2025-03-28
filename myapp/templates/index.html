@@ -81,16 +81,16 @@
       <div class="card-body">
         <h5 class="card-title">Ordering Medicines</h5>
         <p class="card-text">Get medications delivered to your doorstep.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <a href="{% url 'order_medicines' %}" class="btn btn-primary">Click Here</a>
       </div>
     </div>
     
     <div class="card" style="width: 18rem;">
       <img src="{% static 'assets/self_order.jpeg' %}" class="card-img-top" alt="Self Order">
       <div class="card-body">
-        <h5 class="card-title">Self Order</h5>
-        <p class="card-text">Order medical tests and reports online.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <h5 class="card-title">Discussion forum</h5>
+        <p class="card-text">Where people can share their experience</p>
+        <a href="{% url 'discussion' %}" class="btn btn-primary">Click Here</a>
       </div>
     </div>
 
@@ -99,7 +99,7 @@
       <div class="card-body">
         <h5 class="card-title">Patients' Digital Records</h5>
         <p class="card-text">Access and manage medical records securely.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <a href="{% url 'digital_records' %}" class="btn btn-primary">Click Here</a>
       </div>
     </div>
 

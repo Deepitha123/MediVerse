@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'dicussion.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<button onclick="openForm()" class="add-button">+</button>
+<div class="header">The Healing Space: Connect & Discuss Health Topics</div>
+<div class="book-container"></div>
+
+<div class="form-popup">
+    <h1 class="form-title">Add Note</h1>
+    <hr>
+    <input type="text" placeholder="Title" class="book-title" required>
+    <input type="text" placeholder="Author" class="book-author" required>
+    <textarea placeholder="Short Description..." class="book-desc"></textarea>
+    <input type="file" accept="image/*" class="book-image">
+    <button onclick="openCamera()" class="camera-button">Take Picture</button>
+    <video id="video" width="200" height="150" autoplay style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <button onclick="captureImage()" id="capture-button" style="display:none;">Capture</button>
+    <button class="submit-button">Add Note</button>
+    <button class="cancel-button" onclick="closeForm()">Cancel</button>
+</div>
+
+
+<script>
+  function openForm() {
+      document.querySelector(".form-popup").style.display = "block";
+  }
+  
+  function closeForm() {
+      document.querySelector(".form-popup").style.display = "none";
+  }
+  
+  // Add Notes
+  document.querySelector(".submit-button").addEventListener("click", function () {
+      const title = document.querySelector(".book-title").value.trim() || "Untitled";
+      const author = document.querySelector(".book-author").value.trim() || "Unknown";
+      const desc = document.querySelector(".book-desc").value.trim() || "No description available.";
+      const imgSrc = "default.jpg"; // Placeholder Image
+  
+      saveNote(title, author, desc, imgSrc);
+  });
+  
+  // Save Note
+  function saveNote(title, author, desc, imgSrc) {
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes.push({ title, author, desc, imgSrc });
+      localStorage.setItem("notes", JSON.stringify(notes));
+      displayNotes();
+  }
+  
+  // Load Notes on Page Load
+  document.addEventListener("DOMContentLoaded", function () {
+      displayNotes();
+  });
+  
+  function displayNotes() {
+      const container = document.querySelector(".book-container");
+      container.innerHTML = "";
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes.forEach(note => addNoteToPage(note.title, note.author, note.desc, note.imgSrc));
+  }
+  
+  // Add Note to Page
+  function addNoteToPage(title, author, desc, imgSrc) {
+      const bookDiv = document.createElement("div");
+      bookDiv.classList.add("book");
+  
+      bookDiv.innerHTML = `
+          <img src="${imgSrc}" alt="Book Image">
+          <div class="book-content">
+              <h2>${title}</h2>
+              <h3>- ${author}</h3>
+              <p>${desc}</p>
+              <button class="comment-button">Comment</button>
+              <div class="comment-section">
+                  <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+                  <button class="submit-comment">Post</button>
+                  <div class="comment-list"></div>
+              </div>
+              <button class="delete-button">Delete</button>
+          </div>
+      `;
+  
+      document.querySelector(".book-container").appendChild(bookDiv);
+  }
+  
+  // Delete Note Function
+  function deleteNote(index) {
+      let notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes.splice(index, 1); // Remove the note from array
+      localStorage.setItem("notes", JSON.stringify(notes)); // Update localStorage
+      displayNotes(); // Refresh the UI
+  }
+  
+  // Handle Comments & Delete
+  document.querySelector(".book-container").addEventListener("click", function (e) {
+      if (e.target.classList.contains("comment-button")) {
+          e.target.nextElementSibling.style.display = "block";
+      } else if (e.target.classList.contains("submit-comment")) {
+          const commentText = e.target.previousElementSibling.value.trim();
+          if (commentText) {
+              const commentList = e.target.nextElementSibling;
+              const commentItem = document.createElement("p");
+              commentItem.textContent = commentText;
+              commentList.appendChild(commentItem);
+              e.target.previousElementSibling.value = "";
+          }
+      }
+  });
+  </script>
+  
+
+{% endblock %}

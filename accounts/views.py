@@ -16,6 +16,48 @@ from Deepskin.deepskin import wound_segmentation, evaluate_PWAT_score
 import json
 import os
 from django.conf import settings
+import os
+import numpy as np
+import tensorflow as tf
+from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+import os
+import numpy as np
+import tensorflow as tf
+from PIL import Image
+from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import imghdr  # To check image type
+import os
+import librosa
+import librosa.display
+import tensorflow as tf
+import matplotlib.pyplot as plt
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from io import BytesIO
+import tensorflow as tf
+import numpy as np
+import librosa
+import librosa.display
+import noisereduce as nr  # Noise reduction
+import matplotlib
+matplotlib.use('Agg')  # Use non-GUI backend before importing pyplot
+import matplotlib.pyplot as plt
+import io
+import os
+import cv2
+from django.http import JsonResponse
+import librosa
+import numpy as np
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from tensorflow.keras.models import load_model
+import os
+
 
 def wound_analysis(request):
     if request.method == 'POST':
@@ -159,3 +201,5 @@ def medicine_view(request):
         medicines = json.load(file)
 
     return render(request, 'medicine.html', {'medicines': medicines})
+
+

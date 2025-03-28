@@ -1,0 +1,17 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+footer {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: 400;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}

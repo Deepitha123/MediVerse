@@ -43,7 +43,7 @@
       <div class="card-body">
         <h5 class="card-title mt-4 ">Audio Analysis</h5>
         <p class="card-text mt-4">Advanced AI-powered audio-based diagnostics.</p>
-        <a href="#" class="btn btn-primary">Click Here</a>
+        <a href="http://localhost:8501" class="btn btn-primary" target="_blank">Click Here</a>
       </div>
     </div>
     
@@ -125,5 +125,9 @@
       },
   });
 </script>
+
+<script>
+  (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="CxhI90onn8VDsX1S-7F7Y";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
 
 {% endblock %}

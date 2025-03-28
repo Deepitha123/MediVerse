@@ -3,6 +3,7 @@ from . import views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path("register", views.register, name="register"),
     path("login", views.login, name="login"),
@@ -21,6 +22,7 @@ urlpatterns = [
     path('cart/', views.cart, name='cart'),
     path('discussion/', views.discussion, name='discussion'),
     path('digital_records/', views.digital_records, name='digital_records'),
+
 
 
 

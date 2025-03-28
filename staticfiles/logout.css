@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  max-width: 400px;
+  animation: slideUp 0.8s ease-in-out;
+  margin-top: 30px;
+}
+.form-box {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+button, .cta-button {
+  background: #4facfe;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  text-decoration: none;
+}
+button:hover, .cta-button:hover {
+  background: #009ffd;
+}

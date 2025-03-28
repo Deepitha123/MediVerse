@@ -1,0 +1,129 @@
+
+  {% extends 'base.html' %}
+  {% load static %}
+  
+  {% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'classifier.css' %}">
+  {% endblock %}
+  
+  {% block content %}
+
+
+    <div class="container">
+        <h1>Respiratory Disease Classifier</h1>
+        
+        <div id="uploadContainer" class="upload-container">
+            <input type="file" id="audioUpload" accept=".wav">
+            <p>Click to upload a WAV audio file or drag and drop here</p>
+        </div>
+        
+        <div id="loadingSpinner">
+            <p>Analyzing audio... Please wait</p>
+        </div>
+        
+        <div id="resultContainer">
+            <h3>Prediction Result</h3>
+            <p id="predictionText"></p>
+            <p id="confidenceText"></p>
+        </div>
+        
+        <div id="errorMessage"></div>
+    </div>
+
+    <script>
+        const uploadContainer = document.getElementById('uploadContainer');
+        const audioUpload = document.getElementById('audioUpload');
+        const resultContainer = document.getElementById('resultContainer');
+        const predictionText = document.getElementById('predictionText');
+        const confidenceText = document.getElementById('confidenceText');
+        const errorMessage = document.getElementById('errorMessage');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Click to upload
+        uploadContainer.addEventListener('click', () => {
+            audioUpload.click();
+        });
+
+        // Drag and drop
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.style.backgroundColor = '#f1f1f1';
+        });
+
+        uploadContainer.addEventListener('dragleave', () => {
+            uploadContainer.style.backgroundColor = 'white';
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.style.backgroundColor = 'white';
+            
+            const files = e.dataTransfer.files;
+            handleFileUpload(files[0]);
+        });
+
+        // File selection
+        audioUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleFileUpload(file);
+        });
+
+        function handleFileUpload(file) {
+            // Reset previous state
+            errorMessage.textContent = '';
+            resultContainer.style.display = 'none';
+            
+            // Validate file
+            if (!file) {
+                errorMessage.textContent = 'No file selected.';
+                return;
+            }
+
+            // Check file type (must be .wav)
+            if (!file.name.toLowerCase().endsWith('.wav')) {
+                errorMessage.textContent = 'Please upload a .wav audio file.';
+                return;
+            }
+
+            // Prepare for upload
+            uploadAudio(file);
+        }
+
+        function uploadAudio(file) {
+            // Show loading
+            loadingSpinner.style.display = 'block';
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('audio', file);
+
+            // Send to Django backend
+            fetch('/api/predict/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Hide loading
+                loadingSpinner.style.display = 'none';
+                
+                // Display results
+                resultContainer.style.display = 'block';
+                predictionText.textContent = `Predicted Disease: ${data.prediction}`;
+                confidenceText.textContent = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+            })
+            .catch(error => {
+                // Hide loading
+                loadingSpinner.style.display = 'none';
+                
+                // Show error
+                errorMessage.textContent = error.message || 'An error occurred during prediction';
+            });
+        }
+    </script>
+    {% endblock %}

@@ -1,0 +1,118 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header-block {
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.logo-block h1 {
+    font-size: 26px;
+    color: #4facfe;
+    font-weight: 600;
+}
+
+.nav-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-wrapper .items {
+    display: flex;
+    gap: 30px;
+}
+
+.item {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.item::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #4facfe;
+    left: 0;
+    bottom: -4px;
+    transition: width 0.3s ease;
+}
+
+.item:hover::after {
+    width: 100%;
+}
+
+.item:hover {
+    color: #4facfe;
+}
+
+.cta-container {
+    display: flex;
+    gap: 15px;
+}
+
+.cta-button {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    font-weight: 500;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 30px;
+    }
+
+    .nav-wrapper {
+        width: 100%;
+        margin: 10px 0;
+        justify-content: flex-start;
+    }
+
+    .nav-wrapper .items {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .cta-container {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 10px;
+    }
+}

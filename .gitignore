@@ -29,6 +29,7 @@ Deepskin/
 *.ckpt
 *.pth
 *.pt
+*.zip
 
 # Jupyter Notebooks checkpoints (if you use notebooks)
 .ipynb_checkpoints/

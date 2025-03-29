@@ -64,7 +64,7 @@ We welcome contributions! Feel free to submit issues and pull requests to improv
 ---
 
 ## 🛡️ License  
-This project is licensed under the [MIT License](#License).  
+This project is licensed under the [MIT License](#LICENSE).  
 
 ---
 

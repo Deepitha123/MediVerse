@@ -52,7 +52,7 @@ Mediverse is a comprehensive AI-driven healthcare platform designed to provide u
 ---
 
 ## 🔍 Future Enhancements  
-- **AI Chatbot** for real-time medical assistance.  
+- **AI Chatbot** for real-time medical assistance and monitoring.
 - **Telemedicine Support** for virtual doctor consultations.  
 - **Insurance & Healthcare Scheme Integration** for policy recommendations.  
 
